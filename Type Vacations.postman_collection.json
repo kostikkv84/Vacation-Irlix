@@ -11,66 +11,6 @@
 			"name": "Получение типа отпуска по ID",
 			"item": [
 				{
-					"name": "Get token",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code is 200\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									"const postRequest = {\r",
-									"  url: 'http://keycloak-dev.lan/auth/realms/freeipa-realm/protocol/openid-connect/token',\r",
-									"  method: 'POST',\r",
-									"  timeout: 0,\r",
-									"  header: {\r",
-									"    \"Content-Type\": \"application/x-www-form-urlencoded\"\r",
-									"  },\r",
-									"  body: {\r",
-									"    mode: 'urlencoded',\r",
-									"    urlencoded: [\r",
-									"        {key: \"grant_type\", value: \"password\"},\r",
-									"        {key:\"username\", value: \"admin\"},\r",
-									"        {key:\"password\", value: \"admin\"},\r",
-									"        {key:\"client_id\", value: \"core\"},\r",
-									"        {key:\"client_secret\", value: \"d11e83a3-95cc-460c-9289-511d36d3e3fb\"}\r",
-									"    ]}\r",
-									"};\r",
-									"pm.sendRequest(postRequest, function (err, res) {\r",
-									"    var responseJson = res.json();\r",
-									"    console.log(responseJson);\r",
-									"    pm.environment.set('ACCESS_TOKEN', responseJson['access_token']);\r",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{base_url}}/vacationType",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"vacationType"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "Get vacation on ID = 5(Exist) - Авторизован",
 					"event": [
 						{
@@ -124,6 +64,36 @@
 								],
 								"type": "text/javascript"
 							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const postRequest = {\r",
+									"  url: 'http://keycloak-dev.lan/auth/realms/freeipa-realm/protocol/openid-connect/token',\r",
+									"  method: 'POST',\r",
+									"  timeout: 0,\r",
+									"  header: {\r",
+									"    \"Content-Type\": \"application/x-www-form-urlencoded\"\r",
+									"  },\r",
+									"  body: {\r",
+									"    mode: 'urlencoded',\r",
+									"    urlencoded: [\r",
+									"        {key: \"grant_type\", value: \"password\"},\r",
+									"        {key:\"username\", value: \"admin\"},\r",
+									"        {key:\"password\", value: \"admin\"},\r",
+									"        {key:\"client_id\", value: \"core\"},\r",
+									"        {key:\"client_secret\", value: \"d11e83a3-95cc-460c-9289-511d36d3e3fb\"}\r",
+									"    ]}\r",
+									"};\r",
+									"pm.sendRequest(postRequest, function (err, res) {\r",
+									"    var responseJson = res.json();\r",
+									"    console.log(responseJson);\r",
+									"    pm.environment.set('ACCESS_TOKEN', responseJson['access_token']);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
 						}
 					],
 					"request": {
@@ -157,7 +127,7 @@
 									"\r",
 									"pm.test(\"Vacation type value Test\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
-									"    pm.expect(jsonData.description).to.include(\"Тип отпуска не найден, id: \" +new_id );\r",
+									"    pm.expect(jsonData.description).to.include(\"Тип отпуска не найден, id: 146\");\r",
 									"});\r",
 									"\r",
 									"var data = pm.response.json();\r",
@@ -202,13 +172,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/vacationType/{{ID_new_type_vacation}}",
+							"raw": "{{base_url}}/vacationType/146",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
 								"vacationType",
-								"{{ID_new_type_vacation}}"
+								"146"
 							]
 						}
 					},
@@ -330,7 +300,7 @@
 			]
 		},
 		{
-			"name": "Создание отпуска",
+			"name": "Создание типа отпуска",
 			"item": [
 				{
 					"name": "Add new vacation type Test - Авторизован",
@@ -351,6 +321,9 @@
 									"    pm.expect(jsonData.description).to.eql(\"TestType Descriptions\");\r",
 									"});\r",
 									"\r",
+									"pm.test(\"Response time is less than 500ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+									"});\r",
 									"\r",
 									"var schema = {\r",
 									"  \"type\": \"object\",\r",
@@ -508,6 +481,71 @@
 					"response": []
 				},
 				{
+					"name": "Delete vacation",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const postRequest = {\r",
+									"  url: 'http://keycloak-dev.lan/auth/realms/freeipa-realm/protocol/openid-connect/token',\r",
+									"  method: 'POST',\r",
+									"  timeout: 0,\r",
+									"  header: {\r",
+									"    \"Content-Type\": \"application/x-www-form-urlencoded\"\r",
+									"  },\r",
+									"  body: {\r",
+									"    mode: 'urlencoded',\r",
+									"    urlencoded: [\r",
+									"        {key: \"grant_type\", value: \"password\"},\r",
+									"        {key:\"username\", value: \"admin\"},\r",
+									"        {key:\"password\", value: \"admin\"},\r",
+									"        {key:\"client_id\", value: \"core\"},\r",
+									"        {key:\"client_secret\", value: \"d11e83a3-95cc-460c-9289-511d36d3e3fb\"}\r",
+									"    ]}\r",
+									"};\r",
+									"pm.sendRequest(postRequest, function (err, res) {\r",
+									"    var responseJson = res.json();\r",
+									"    console.log(responseJson);\r",
+									"    pm.environment.set('ACCESS_TOKEN', responseJson['access_token']);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/vacationType/{{ID_new_type_vacation}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"vacationType",
+								"{{ID_new_type_vacation}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Add new vacation type Test - Не авторизован",
 					"event": [
 						{
@@ -575,9 +613,10 @@
 									"});\r",
 									"\r",
 									"\r",
-									"pm.test(\"Test body\", function () {\r",
-									"    var jsonData = pm.response.json();\r",
-									"    pm.expect(jsonData.description).to.eql(\"Поле value: поле не должно быть null и не должно быть пустым\");\r",
+									"var data = JSON.parse(responseBody);  \r",
+									"\r",
+									"pm.test(\"Test description text in response\", function () {\r",
+									"    pm.expect(data[0].description).to.eql(\"Поле value: поле не должно быть null и не должно быть пустым\");\r",
 									"});\r",
 									""
 								],
@@ -629,11 +668,11 @@
 									"});\r",
 									"\r",
 									"\r",
-									"pm.test(\"Test body\", function () {\r",
-									"    var jsonData = pm.response.json();\r",
-									"    pm.expect(jsonData.description).to.eql(\"Поле description: поле не должно быть null и не должно быть пустым\");\r",
-									"});\r",
-									""
+									"var data = JSON.parse(responseBody);  \r",
+									"\r",
+									"pm.test(\"Test description text in response\", function () {\r",
+									"    pm.expect(data[0].description).to.eql(\"Поле description: поле не должно быть null и не должно быть пустым\");\r",
+									"});"
 								],
 								"type": "text/javascript"
 							}
@@ -672,7 +711,7 @@
 					"response": []
 				},
 				{
-					"name": "Add new vacation type Value = 255 +",
+					"name": "Add new vacation type Value = 255 + 1",
 					"event": [
 						{
 							"listen": "test",
@@ -691,57 +730,21 @@
 								],
 								"type": "text/javascript"
 							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "accept",
-								"value": "*/*"
-							},
-							{
-								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJES3c2ZUEyd0lqUEJnWUoxdW1PclZ6RWRRcjBKQzJ4YUVPbXpreC15STdNIn0.eyJleHAiOjE2ODE5NzI5NTAsImlhdCI6MTY4MTk3MTE1MCwianRpIjoiYjgwNGJhOGMtYTZkMy00YTJkLTk3MDYtNzhlMzFlMmYwZTg5IiwiaXNzIjoiaHR0cDovL2tleWNsb2FrLWRldi5sYW4vYXV0aC9yZWFsbXMvZnJlZWlwYS1yZWFsbSIsImF1ZCI6WyJpcmxpeC1zb2NpYWwiLCJhY2NvdW50Il0sInN1YiI6IjEyZWEzNjVkLTY2NGYtNGQ4NS1hYWYyLTE3ODgxOTY2ZWFkMSIsInR5cCI6IkJlYXJlciIsImF6cCI6ImNvcmUiLCJzZXNzaW9uX3N0YXRlIjoiMDU3ZjUxNWItOTFkMS00MWUwLWI2YzgtNTNiN2RjMzE5NTZjIiwiYWNyIjoiMSIsInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJvZmZsaW5lX2FjY2VzcyIsImRlZmF1bHQtcm9sZXMtZnJlZWlwYS1yZWFsbSIsInVtYV9hdXRob3JpemF0aW9uIiwiVVNFUiJdfSwicmVzb3VyY2VfYWNjZXNzIjp7ImNvcmUiOnsicm9sZXMiOlsiRU1QTE9ZRUUiXX0sImlybGl4LXNvY2lhbCI6eyJyb2xlcyI6WyJVU0VSIl19LCJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6IiIsInNpZCI6IjA1N2Y1MTViLTkxZDEtNDFlMC1iNmM4LTUzYjdkYzMxOTU2YyIsImxkYXBVc2VybmFtZSI6ImtvbnN0YW50aW4ua29zdHlsZXYifQ.E46i-xp_cNvTOnIZt2BrsinlpYPCXUHhg4C7a3rBjO1768fsxLvjFfzIXnGRt6IHIOA3jkbkKR3BfjiXlEa4VfGRcbYQb1xxc1Oyf-t0URRnzb6RLBBu47f1nE_wuJVtcq6JHR0hGVVv_w7mTM7gGFOGIpeIsOCIO6ovdbS1B4YkttG5TxxnxMGdrmPSHAM4FeHo-LeSKdT_pmmj5xwSbE9EaxbHvVii_Xc_1DNpSJ1Pa0Z-QrwTwZMdjc3rEoqAmvbbIx4fFbFlyRyb8W4T7Rv4HFxtwxH0Sb0ts8DlicoWA-6GUP-2A7b07xJnM9S1TR5TKtAjkIjWO-mMMfLeVw"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n  \"value\": \"Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. fhdsfgsdfg  gfdjhLorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem\",\r\n  \"description\": \"TestType Descriptions\"\r\n}"
 						},
-						"url": {
-							"raw": "{{base_url}}/vacationType",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"vacationType"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Add new vacation type Description = 1000+",
-					"event": [
 						{
-							"listen": "test",
+							"listen": "prerequest",
 							"script": {
 								"exec": [
-									"pm.test(\"Status code is 400\", function () {\r",
-									"    pm.response.to.have.status(400);\r",
-									"});\r",
-									"\r",
-									"\r",
-									"pm.test(\"Test body\", function () {\r",
-									"    var jsonData = pm.response.json();\r",
-									"    pm.expect(jsonData.description).to.eql(\"Поле description: поле не должно быть null и не должно быть пустым\");\r",
-									"});\r",
-									""
+									" function randomString(length=1) {\r",
+									"        let randomString = \"\";\r",
+									"        for (let i = 0; i < length; i++){\r",
+									"            randomString += pm.variables.replaceIn(\"{{$randomAlphaNumeric}}\");\r",
+									"        }\r",
+									"        return randomString;\r",
+									"    }\r",
+									"    \r",
+									"    STRING_LEN = 255\r",
+									"    pm.variables.set('randomString', randomString(STRING_LEN));"
 								],
 								"type": "text/javascript"
 							}
@@ -765,7 +768,79 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"value\": \"TEst\",\r\n  \"description\": \"Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. fhdsfgsdfg  gfdjhLorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. LoremLorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. fhdsfgsdfg  gfdjhLorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. LoremLorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. fhdsfgsdfg  gfdjhLorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. LoremLorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. fhdsfgsdfg  gfdjhLorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. LoremLorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. fhdsfgsdfg  gfdjhLorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem\"\r\n}"
+							"raw": "{\r\n  \"value\": \"{{randomString}}s\",\r\n  \"description\": \"TestType Descriptions for test\"\r\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/vacationType",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"vacationType"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add new vacation type Description = 1000 + 1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Test body\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.description).to.eql(\"Ошибка добавления или обновления записи в бд\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									" function randomString(length=1) {\r",
+									"        let randomString = \"\";\r",
+									"        for (let i = 0; i < length; i++){\r",
+									"            randomString += pm.variables.replaceIn(\"{{$randomAlphaNumeric}}\");\r",
+									"        }\r",
+									"        return randomString;\r",
+									"    }\r",
+									"    \r",
+									"    STRING_LEN = 1000\r",
+									"    pm.variables.set('randomString', randomString(STRING_LEN));"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "accept",
+								"value": "*/*"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJES3c2ZUEyd0lqUEJnWUoxdW1PclZ6RWRRcjBKQzJ4YUVPbXpreC15STdNIn0.eyJleHAiOjE2ODE5NzI5NTAsImlhdCI6MTY4MTk3MTE1MCwianRpIjoiYjgwNGJhOGMtYTZkMy00YTJkLTk3MDYtNzhlMzFlMmYwZTg5IiwiaXNzIjoiaHR0cDovL2tleWNsb2FrLWRldi5sYW4vYXV0aC9yZWFsbXMvZnJlZWlwYS1yZWFsbSIsImF1ZCI6WyJpcmxpeC1zb2NpYWwiLCJhY2NvdW50Il0sInN1YiI6IjEyZWEzNjVkLTY2NGYtNGQ4NS1hYWYyLTE3ODgxOTY2ZWFkMSIsInR5cCI6IkJlYXJlciIsImF6cCI6ImNvcmUiLCJzZXNzaW9uX3N0YXRlIjoiMDU3ZjUxNWItOTFkMS00MWUwLWI2YzgtNTNiN2RjMzE5NTZjIiwiYWNyIjoiMSIsInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJvZmZsaW5lX2FjY2VzcyIsImRlZmF1bHQtcm9sZXMtZnJlZWlwYS1yZWFsbSIsInVtYV9hdXRob3JpemF0aW9uIiwiVVNFUiJdfSwicmVzb3VyY2VfYWNjZXNzIjp7ImNvcmUiOnsicm9sZXMiOlsiRU1QTE9ZRUUiXX0sImlybGl4LXNvY2lhbCI6eyJyb2xlcyI6WyJVU0VSIl19LCJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6IiIsInNpZCI6IjA1N2Y1MTViLTkxZDEtNDFlMC1iNmM4LTUzYjdkYzMxOTU2YyIsImxkYXBVc2VybmFtZSI6ImtvbnN0YW50aW4ua29zdHlsZXYifQ.E46i-xp_cNvTOnIZt2BrsinlpYPCXUHhg4C7a3rBjO1768fsxLvjFfzIXnGRt6IHIOA3jkbkKR3BfjiXlEa4VfGRcbYQb1xxc1Oyf-t0URRnzb6RLBBu47f1nE_wuJVtcq6JHR0hGVVv_w7mTM7gGFOGIpeIsOCIO6ovdbS1B4YkttG5TxxnxMGdrmPSHAM4FeHo-LeSKdT_pmmj5xwSbE9EaxbHvVii_Xc_1DNpSJ1Pa0Z-QrwTwZMdjc3rEoqAmvbbIx4fFbFlyRyb8W4T7Rv4HFxtwxH0Sb0ts8DlicoWA-6GUP-2A7b07xJnM9S1TR5TKtAjkIjWO-mMMfLeVw"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"value\": \"TEst\",\r\n  \"description\": \"{{randomString}}s\"\r\n}"
 						},
 						"url": {
 							"raw": "{{base_url}}/vacationType",
@@ -874,7 +949,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"value\": \"TEst\"\r\n}"
+							"raw": "{\r\n  \"value\": \"TEst with out desc\"\r\n}"
 						},
 						"url": {
 							"raw": "{{base_url}}/vacationType",
@@ -1071,7 +1146,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"value\": \"TestType vacation\",\r\n  \"description\": \"описание для Основной оплачиваемый\"\r\n}"
+							"raw": "{\r\n  \"value\": \"TestType vacation 3\",\r\n  \"description\": \"описание для Основной оплачиваемый\"\r\n}"
 						},
 						"url": {
 							"raw": "{{base_url}}/vacationType",
@@ -1092,14 +1167,15 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"Status code is 400\", function () {\r",
-									"    pm.response.to.have.status(400);\r",
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
 									"});\r",
 									"\r",
+									"var jsonData = pm.response.json();\r",
+									"pm.collectionVariables.set(\"ID_new_type_vacation\", jsonData.id);\r",
 									"\r",
-									"pm.test(\"Check Description value\", function () {\r",
-									"    var jsonData = pm.response.json();\r",
-									"    pm.expect(jsonData.description).to.eql(\"Ошибка добавления или обновления записи в бд\");\r",
+									"pm.test(\"Check Description value if Number - Integer\", function () {\r",
+									"    pm.expect(jsonData.value).to.eql(\"1237895\");\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -1124,7 +1200,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"value\": 123,\r\n  \"description\": \"описание для Основной оплачиваемый\"\r\n}"
+							"raw": "{\r\n  \"value\": 1237895,\r\n  \"description\": \"{{$randomCatchPhraseNoun}}\"\r\n}"
 						},
 						"url": {
 							"raw": "{{base_url}}/vacationType",
@@ -1133,6 +1209,71 @@
 							],
 							"path": [
 								"vacationType"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete vacation",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const postRequest = {\r",
+									"  url: 'http://keycloak-dev.lan/auth/realms/freeipa-realm/protocol/openid-connect/token',\r",
+									"  method: 'POST',\r",
+									"  timeout: 0,\r",
+									"  header: {\r",
+									"    \"Content-Type\": \"application/x-www-form-urlencoded\"\r",
+									"  },\r",
+									"  body: {\r",
+									"    mode: 'urlencoded',\r",
+									"    urlencoded: [\r",
+									"        {key: \"grant_type\", value: \"password\"},\r",
+									"        {key:\"username\", value: \"admin\"},\r",
+									"        {key:\"password\", value: \"admin\"},\r",
+									"        {key:\"client_id\", value: \"core\"},\r",
+									"        {key:\"client_secret\", value: \"d11e83a3-95cc-460c-9289-511d36d3e3fb\"}\r",
+									"    ]}\r",
+									"};\r",
+									"pm.sendRequest(postRequest, function (err, res) {\r",
+									"    var responseJson = res.json();\r",
+									"    console.log(responseJson);\r",
+									"    pm.environment.set('ACCESS_TOKEN', responseJson['access_token']);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/vacationType/{{ID_new_type_vacation}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"vacationType",
+								"{{ID_new_type_vacation}}"
 							]
 						}
 					},
@@ -1145,14 +1286,15 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"Status code is 400\", function () {\r",
-									"    pm.response.to.have.status(400);\r",
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
 									"});\r",
 									"\r",
+									"var jsonData = pm.response.json();\r",
+									"pm.collectionVariables.set(\"ID_new_type_vacation\", jsonData.id);\r",
 									"\r",
 									"pm.test(\"Check Description value\", function () {\r",
-									"    var jsonData = pm.response.json();\r",
-									"    pm.expect(jsonData.description).to.eql(\"Ошибка добавления или обновления записи в бд\");\r",
+									"    pm.expect(jsonData.value).to.eql(\"458997\");\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -1177,7 +1319,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"value\": \"123\",\r\n  \"description\": \"описание для Основной оплачиваемый\"\r\n}"
+							"raw": "{\r\n  \"value\": \"458997\",\r\n  \"description\": \"описание для Основной оплачиваемый отпуск 2023\"\r\n}"
 						},
 						"url": {
 							"raw": "{{base_url}}/vacationType",
@@ -1192,77 +1334,48 @@
 					"response": []
 				},
 				{
-					"name": "Add new vacation type, Description = Number",
+					"name": "Delete vacation",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"Status code is 400\", function () {\r",
-									"    pm.response.to.have.status(400);\r",
+									"pm.test(\"Status code is 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
 									"});\r",
 									"\r",
-									" var jsonData = pm.response.json();\r",
 									"\r",
-									"pm.collectionVariables.set(\"vacation_type_id\", jsonData.id);\r",
 									"\r",
-									"pm.test(\"Test Description\", function () {\r",
-									"    pm.expect(jsonData.description).to.eql( \"Ошибка добавления или обновления записи в бд\");\r",
-									"});"
+									""
 								],
 								"type": "text/javascript"
 							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "accept",
-								"value": "*/*"
-							},
-							{
-								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJES3c2ZUEyd0lqUEJnWUoxdW1PclZ6RWRRcjBKQzJ4YUVPbXpreC15STdNIn0.eyJleHAiOjE2ODE5NzI5NTAsImlhdCI6MTY4MTk3MTE1MCwianRpIjoiYjgwNGJhOGMtYTZkMy00YTJkLTk3MDYtNzhlMzFlMmYwZTg5IiwiaXNzIjoiaHR0cDovL2tleWNsb2FrLWRldi5sYW4vYXV0aC9yZWFsbXMvZnJlZWlwYS1yZWFsbSIsImF1ZCI6WyJpcmxpeC1zb2NpYWwiLCJhY2NvdW50Il0sInN1YiI6IjEyZWEzNjVkLTY2NGYtNGQ4NS1hYWYyLTE3ODgxOTY2ZWFkMSIsInR5cCI6IkJlYXJlciIsImF6cCI6ImNvcmUiLCJzZXNzaW9uX3N0YXRlIjoiMDU3ZjUxNWItOTFkMS00MWUwLWI2YzgtNTNiN2RjMzE5NTZjIiwiYWNyIjoiMSIsInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJvZmZsaW5lX2FjY2VzcyIsImRlZmF1bHQtcm9sZXMtZnJlZWlwYS1yZWFsbSIsInVtYV9hdXRob3JpemF0aW9uIiwiVVNFUiJdfSwicmVzb3VyY2VfYWNjZXNzIjp7ImNvcmUiOnsicm9sZXMiOlsiRU1QTE9ZRUUiXX0sImlybGl4LXNvY2lhbCI6eyJyb2xlcyI6WyJVU0VSIl19LCJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6IiIsInNpZCI6IjA1N2Y1MTViLTkxZDEtNDFlMC1iNmM4LTUzYjdkYzMxOTU2YyIsImxkYXBVc2VybmFtZSI6ImtvbnN0YW50aW4ua29zdHlsZXYifQ.E46i-xp_cNvTOnIZt2BrsinlpYPCXUHhg4C7a3rBjO1768fsxLvjFfzIXnGRt6IHIOA3jkbkKR3BfjiXlEa4VfGRcbYQb1xxc1Oyf-t0URRnzb6RLBBu47f1nE_wuJVtcq6JHR0hGVVv_w7mTM7gGFOGIpeIsOCIO6ovdbS1B4YkttG5TxxnxMGdrmPSHAM4FeHo-LeSKdT_pmmj5xwSbE9EaxbHvVii_Xc_1DNpSJ1Pa0Z-QrwTwZMdjc3rEoqAmvbbIx4fFbFlyRyb8W4T7Rv4HFxtwxH0Sb0ts8DlicoWA-6GUP-2A7b07xJnM9S1TR5TKtAjkIjWO-mMMfLeVw"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n  \"value\": \"Test vacation \",\r\n  \"description\": 123\r\n}"
 						},
-						"url": {
-							"raw": "{{base_url}}/vacationType",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"vacationType"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Add new vacation type, Description = Number Copy",
-					"event": [
 						{
-							"listen": "test",
+							"listen": "prerequest",
 							"script": {
 								"exec": [
-									"pm.test(\"Status code is 400\", function () {\r",
-									"    pm.response.to.have.status(400);\r",
-									"});\r",
-									"\r",
-									" var jsonData = pm.response.json();\r",
-									"\r",
-									"pm.collectionVariables.set(\"vacation_type_id\", jsonData.id);\r",
-									"\r",
-									"pm.test(\"Test Description\", function () {\r",
-									"    pm.expect(jsonData.description).to.eql( \"Ошибка добавления или обновления записи в бд\");\r",
+									"const postRequest = {\r",
+									"  url: 'http://keycloak-dev.lan/auth/realms/freeipa-realm/protocol/openid-connect/token',\r",
+									"  method: 'POST',\r",
+									"  timeout: 0,\r",
+									"  header: {\r",
+									"    \"Content-Type\": \"application/x-www-form-urlencoded\"\r",
+									"  },\r",
+									"  body: {\r",
+									"    mode: 'urlencoded',\r",
+									"    urlencoded: [\r",
+									"        {key: \"grant_type\", value: \"password\"},\r",
+									"        {key:\"username\", value: \"admin\"},\r",
+									"        {key:\"password\", value: \"admin\"},\r",
+									"        {key:\"client_id\", value: \"core\"},\r",
+									"        {key:\"client_secret\", value: \"d11e83a3-95cc-460c-9289-511d36d3e3fb\"}\r",
+									"    ]}\r",
+									"};\r",
+									"pm.sendRequest(postRequest, function (err, res) {\r",
+									"    var responseJson = res.json();\r",
+									"    console.log(responseJson);\r",
+									"    pm.environment.set('ACCESS_TOKEN', responseJson['access_token']);\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -1270,39 +1383,23 @@
 						}
 					],
 					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "accept",
-								"value": "*/*"
-							},
-							{
-								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJES3c2ZUEyd0lqUEJnWUoxdW1PclZ6RWRRcjBKQzJ4YUVPbXpreC15STdNIn0.eyJleHAiOjE2ODE5NzI5NTAsImlhdCI6MTY4MTk3MTE1MCwianRpIjoiYjgwNGJhOGMtYTZkMy00YTJkLTk3MDYtNzhlMzFlMmYwZTg5IiwiaXNzIjoiaHR0cDovL2tleWNsb2FrLWRldi5sYW4vYXV0aC9yZWFsbXMvZnJlZWlwYS1yZWFsbSIsImF1ZCI6WyJpcmxpeC1zb2NpYWwiLCJhY2NvdW50Il0sInN1YiI6IjEyZWEzNjVkLTY2NGYtNGQ4NS1hYWYyLTE3ODgxOTY2ZWFkMSIsInR5cCI6IkJlYXJlciIsImF6cCI6ImNvcmUiLCJzZXNzaW9uX3N0YXRlIjoiMDU3ZjUxNWItOTFkMS00MWUwLWI2YzgtNTNiN2RjMzE5NTZjIiwiYWNyIjoiMSIsInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJvZmZsaW5lX2FjY2VzcyIsImRlZmF1bHQtcm9sZXMtZnJlZWlwYS1yZWFsbSIsInVtYV9hdXRob3JpemF0aW9uIiwiVVNFUiJdfSwicmVzb3VyY2VfYWNjZXNzIjp7ImNvcmUiOnsicm9sZXMiOlsiRU1QTE9ZRUUiXX0sImlybGl4LXNvY2lhbCI6eyJyb2xlcyI6WyJVU0VSIl19LCJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6IiIsInNpZCI6IjA1N2Y1MTViLTkxZDEtNDFlMC1iNmM4LTUzYjdkYzMxOTU2YyIsImxkYXBVc2VybmFtZSI6ImtvbnN0YW50aW4ua29zdHlsZXYifQ.E46i-xp_cNvTOnIZt2BrsinlpYPCXUHhg4C7a3rBjO1768fsxLvjFfzIXnGRt6IHIOA3jkbkKR3BfjiXlEa4VfGRcbYQb1xxc1Oyf-t0URRnzb6RLBBu47f1nE_wuJVtcq6JHR0hGVVv_w7mTM7gGFOGIpeIsOCIO6ovdbS1B4YkttG5TxxnxMGdrmPSHAM4FeHo-LeSKdT_pmmj5xwSbE9EaxbHvVii_Xc_1DNpSJ1Pa0Z-QrwTwZMdjc3rEoqAmvbbIx4fFbFlyRyb8W4T7Rv4HFxtwxH0Sb0ts8DlicoWA-6GUP-2A7b07xJnM9S1TR5TKtAjkIjWO-mMMfLeVw"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n  \"value\": \"Test vacation \",\r\n  \"description\": 123\r\n}"
-						},
+						"method": "DELETE",
+						"header": [],
 						"url": {
-							"raw": "{{base_url}}/vacationType",
+							"raw": "{{base_url}}/vacationType/{{ID_new_type_vacation}}",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
-								"vacationType"
+								"vacationType",
+								"{{ID_new_type_vacation}}"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "Add new vacation type, Value.lenght = 255",
+					"name": "!!! Add new vacation type, Description = Number",
 					"event": [
 						{
 							"listen": "test",
@@ -1312,12 +1409,279 @@
 									"    pm.response.to.have.status(201);\r",
 									"});\r",
 									"\r",
-									"var strLength =\r",
-									"    pm.collectionVariables.get(\"randomString\");\r",
+									"var jsonData = pm.response.json();\r",
+									"pm.collectionVariables.set(\"ID_new_type_vacation\", jsonData.id);\r",
 									"\r",
-									" var jsonData = pm.response.json();\r",
+									"pm.test(\"Test Description\", function () {\r",
+									"    pm.expect(jsonData.description).to.eql(\"123\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "accept",
+								"value": "*/*"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJES3c2ZUEyd0lqUEJnWUoxdW1PclZ6RWRRcjBKQzJ4YUVPbXpreC15STdNIn0.eyJleHAiOjE2ODE5NzI5NTAsImlhdCI6MTY4MTk3MTE1MCwianRpIjoiYjgwNGJhOGMtYTZkMy00YTJkLTk3MDYtNzhlMzFlMmYwZTg5IiwiaXNzIjoiaHR0cDovL2tleWNsb2FrLWRldi5sYW4vYXV0aC9yZWFsbXMvZnJlZWlwYS1yZWFsbSIsImF1ZCI6WyJpcmxpeC1zb2NpYWwiLCJhY2NvdW50Il0sInN1YiI6IjEyZWEzNjVkLTY2NGYtNGQ4NS1hYWYyLTE3ODgxOTY2ZWFkMSIsInR5cCI6IkJlYXJlciIsImF6cCI6ImNvcmUiLCJzZXNzaW9uX3N0YXRlIjoiMDU3ZjUxNWItOTFkMS00MWUwLWI2YzgtNTNiN2RjMzE5NTZjIiwiYWNyIjoiMSIsInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJvZmZsaW5lX2FjY2VzcyIsImRlZmF1bHQtcm9sZXMtZnJlZWlwYS1yZWFsbSIsInVtYV9hdXRob3JpemF0aW9uIiwiVVNFUiJdfSwicmVzb3VyY2VfYWNjZXNzIjp7ImNvcmUiOnsicm9sZXMiOlsiRU1QTE9ZRUUiXX0sImlybGl4LXNvY2lhbCI6eyJyb2xlcyI6WyJVU0VSIl19LCJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6IiIsInNpZCI6IjA1N2Y1MTViLTkxZDEtNDFlMC1iNmM4LTUzYjdkYzMxOTU2YyIsImxkYXBVc2VybmFtZSI6ImtvbnN0YW50aW4ua29zdHlsZXYifQ.E46i-xp_cNvTOnIZt2BrsinlpYPCXUHhg4C7a3rBjO1768fsxLvjFfzIXnGRt6IHIOA3jkbkKR3BfjiXlEa4VfGRcbYQb1xxc1Oyf-t0URRnzb6RLBBu47f1nE_wuJVtcq6JHR0hGVVv_w7mTM7gGFOGIpeIsOCIO6ovdbS1B4YkttG5TxxnxMGdrmPSHAM4FeHo-LeSKdT_pmmj5xwSbE9EaxbHvVii_Xc_1DNpSJ1Pa0Z-QrwTwZMdjc3rEoqAmvbbIx4fFbFlyRyb8W4T7Rv4HFxtwxH0Sb0ts8DlicoWA-6GUP-2A7b07xJnM9S1TR5TKtAjkIjWO-mMMfLeVw"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"value\": \"Test vacation \",\r\n  \"description\": 123\r\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/vacationType",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"vacationType"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete vacation",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});\r",
 									"\r",
-									"pm.collectionVariables.set(\"vacation_type_id\", jsonData.id);\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const postRequest = {\r",
+									"  url: 'http://keycloak-dev.lan/auth/realms/freeipa-realm/protocol/openid-connect/token',\r",
+									"  method: 'POST',\r",
+									"  timeout: 0,\r",
+									"  header: {\r",
+									"    \"Content-Type\": \"application/x-www-form-urlencoded\"\r",
+									"  },\r",
+									"  body: {\r",
+									"    mode: 'urlencoded',\r",
+									"    urlencoded: [\r",
+									"        {key: \"grant_type\", value: \"password\"},\r",
+									"        {key:\"username\", value: \"admin\"},\r",
+									"        {key:\"password\", value: \"admin\"},\r",
+									"        {key:\"client_id\", value: \"core\"},\r",
+									"        {key:\"client_secret\", value: \"d11e83a3-95cc-460c-9289-511d36d3e3fb\"}\r",
+									"    ]}\r",
+									"};\r",
+									"pm.sendRequest(postRequest, function (err, res) {\r",
+									"    var responseJson = res.json();\r",
+									"    console.log(responseJson);\r",
+									"    pm.environment.set('ACCESS_TOKEN', responseJson['access_token']);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/vacationType/{{ID_new_type_vacation}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"vacationType",
+								"{{ID_new_type_vacation}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "!!! Add new vacation type, Description = \"Number\"",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"pm.collectionVariables.set(\"ID_new_type_vacation\", jsonData.id);\r",
+									"\r",
+									"pm.test(\"Test Description\", function () {\r",
+									"    pm.expect(jsonData.description).to.eql(\"12345\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const postRequest = {\r",
+									"  url: 'http://keycloak-dev.lan/auth/realms/freeipa-realm/protocol/openid-connect/token',\r",
+									"  method: 'POST',\r",
+									"  timeout: 0,\r",
+									"  header: {\r",
+									"    \"Content-Type\": \"application/x-www-form-urlencoded\"\r",
+									"  },\r",
+									"  body: {\r",
+									"    mode: 'urlencoded',\r",
+									"    urlencoded: [\r",
+									"        {key: \"grant_type\", value: \"password\"},\r",
+									"        {key:\"username\", value: \"admin\"},\r",
+									"        {key:\"password\", value: \"admin\"},\r",
+									"        {key:\"client_id\", value: \"core\"},\r",
+									"        {key:\"client_secret\", value: \"d11e83a3-95cc-460c-9289-511d36d3e3fb\"}\r",
+									"    ]}\r",
+									"};\r",
+									"pm.sendRequest(postRequest, function (err, res) {\r",
+									"    var responseJson = res.json();\r",
+									"    console.log(responseJson);\r",
+									"    pm.environment.set('ACCESS_TOKEN', responseJson['access_token']);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "accept",
+								"value": "*/*"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJES3c2ZUEyd0lqUEJnWUoxdW1PclZ6RWRRcjBKQzJ4YUVPbXpreC15STdNIn0.eyJleHAiOjE2ODE5NzI5NTAsImlhdCI6MTY4MTk3MTE1MCwianRpIjoiYjgwNGJhOGMtYTZkMy00YTJkLTk3MDYtNzhlMzFlMmYwZTg5IiwiaXNzIjoiaHR0cDovL2tleWNsb2FrLWRldi5sYW4vYXV0aC9yZWFsbXMvZnJlZWlwYS1yZWFsbSIsImF1ZCI6WyJpcmxpeC1zb2NpYWwiLCJhY2NvdW50Il0sInN1YiI6IjEyZWEzNjVkLTY2NGYtNGQ4NS1hYWYyLTE3ODgxOTY2ZWFkMSIsInR5cCI6IkJlYXJlciIsImF6cCI6ImNvcmUiLCJzZXNzaW9uX3N0YXRlIjoiMDU3ZjUxNWItOTFkMS00MWUwLWI2YzgtNTNiN2RjMzE5NTZjIiwiYWNyIjoiMSIsInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJvZmZsaW5lX2FjY2VzcyIsImRlZmF1bHQtcm9sZXMtZnJlZWlwYS1yZWFsbSIsInVtYV9hdXRob3JpemF0aW9uIiwiVVNFUiJdfSwicmVzb3VyY2VfYWNjZXNzIjp7ImNvcmUiOnsicm9sZXMiOlsiRU1QTE9ZRUUiXX0sImlybGl4LXNvY2lhbCI6eyJyb2xlcyI6WyJVU0VSIl19LCJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6IiIsInNpZCI6IjA1N2Y1MTViLTkxZDEtNDFlMC1iNmM4LTUzYjdkYzMxOTU2YyIsImxkYXBVc2VybmFtZSI6ImtvbnN0YW50aW4ua29zdHlsZXYifQ.E46i-xp_cNvTOnIZt2BrsinlpYPCXUHhg4C7a3rBjO1768fsxLvjFfzIXnGRt6IHIOA3jkbkKR3BfjiXlEa4VfGRcbYQb1xxc1Oyf-t0URRnzb6RLBBu47f1nE_wuJVtcq6JHR0hGVVv_w7mTM7gGFOGIpeIsOCIO6ovdbS1B4YkttG5TxxnxMGdrmPSHAM4FeHo-LeSKdT_pmmj5xwSbE9EaxbHvVii_Xc_1DNpSJ1Pa0Z-QrwTwZMdjc3rEoqAmvbbIx4fFbFlyRyb8W4T7Rv4HFxtwxH0Sb0ts8DlicoWA-6GUP-2A7b07xJnM9S1TR5TKtAjkIjWO-mMMfLeVw"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"value\": \"Test vacation if Number\",\r\n  \"description\": \"12345\"\r\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/vacationType",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"vacationType"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete vacation",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const postRequest = {\r",
+									"  url: 'http://keycloak-dev.lan/auth/realms/freeipa-realm/protocol/openid-connect/token',\r",
+									"  method: 'POST',\r",
+									"  timeout: 0,\r",
+									"  header: {\r",
+									"    \"Content-Type\": \"application/x-www-form-urlencoded\"\r",
+									"  },\r",
+									"  body: {\r",
+									"    mode: 'urlencoded',\r",
+									"    urlencoded: [\r",
+									"        {key: \"grant_type\", value: \"password\"},\r",
+									"        {key:\"username\", value: \"admin\"},\r",
+									"        {key:\"password\", value: \"admin\"},\r",
+									"        {key:\"client_id\", value: \"core\"},\r",
+									"        {key:\"client_secret\", value: \"d11e83a3-95cc-460c-9289-511d36d3e3fb\"}\r",
+									"    ]}\r",
+									"};\r",
+									"pm.sendRequest(postRequest, function (err, res) {\r",
+									"    var responseJson = res.json();\r",
+									"    console.log(responseJson);\r",
+									"    pm.environment.set('ACCESS_TOKEN', responseJson['access_token']);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/vacationType/{{ID_new_type_vacation}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"vacationType",
+								"{{ID_new_type_vacation}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add new vacation type, Value.length = 255",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"var strLength = pm.collectionVariables.get(\"randomString\");\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.collectionVariables.set(\"ID_new_type_vacation\", jsonData.id);\r",
 									"\r",
 									"pm.test(\"Test Value - length (255)\", function () {\r",
 									"    pm.expect(jsonData.value.length).to.eql(255);\r",
@@ -1330,6 +1694,32 @@
 							"listen": "prerequest",
 							"script": {
 								"exec": [
+									"\r",
+									"    //------------------------------------------------------------------\r",
+									"    const postRequest = {\r",
+									"  url: 'http://keycloak-dev.lan/auth/realms/freeipa-realm/protocol/openid-connect/token',\r",
+									"  method: 'POST',\r",
+									"  timeout: 0,\r",
+									"  header: {\r",
+									"    \"Content-Type\": \"application/x-www-form-urlencoded\"\r",
+									"  },\r",
+									"  body: {\r",
+									"    mode: 'urlencoded',\r",
+									"    urlencoded: [\r",
+									"        {key: \"grant_type\", value: \"password\"},\r",
+									"        {key:\"username\", value: \"admin\"},\r",
+									"        {key:\"password\", value: \"admin\"},\r",
+									"        {key:\"client_id\", value: \"core\"},\r",
+									"        {key:\"client_secret\", value: \"d11e83a3-95cc-460c-9289-511d36d3e3fb\"}\r",
+									"    ]}\r",
+									"};\r",
+									"pm.sendRequest(postRequest, function (err, res) {\r",
+									"    var responseJson = res.json();\r",
+									"    console.log(responseJson);\r",
+									"    pm.environment.set('ACCESS_TOKEN', responseJson['access_token']);\r",
+									"});\r",
+									"\r",
+									"//---------------------------------------------\r",
 									"    function randomString(length=1) {\r",
 									"        let randomString = \"\";\r",
 									"        for (let i = 0; i < length; i++){\r",
@@ -1339,7 +1729,8 @@
 									"    }\r",
 									"    \r",
 									"    STRING_LEN = 255\r",
-									"    pm.collectionVariables.set('randomString', randomString(STRING_LEN));"
+									"    pm.collectionVariables.set('randomString', randomString(STRING_LEN));\r",
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -1378,6 +1769,71 @@
 					"response": []
 				},
 				{
+					"name": "Delete vacation",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const postRequest = {\r",
+									"  url: 'http://keycloak-dev.lan/auth/realms/freeipa-realm/protocol/openid-connect/token',\r",
+									"  method: 'POST',\r",
+									"  timeout: 0,\r",
+									"  header: {\r",
+									"    \"Content-Type\": \"application/x-www-form-urlencoded\"\r",
+									"  },\r",
+									"  body: {\r",
+									"    mode: 'urlencoded',\r",
+									"    urlencoded: [\r",
+									"        {key: \"grant_type\", value: \"password\"},\r",
+									"        {key:\"username\", value: \"admin\"},\r",
+									"        {key:\"password\", value: \"admin\"},\r",
+									"        {key:\"client_id\", value: \"core\"},\r",
+									"        {key:\"client_secret\", value: \"d11e83a3-95cc-460c-9289-511d36d3e3fb\"}\r",
+									"    ]}\r",
+									"};\r",
+									"pm.sendRequest(postRequest, function (err, res) {\r",
+									"    var responseJson = res.json();\r",
+									"    console.log(responseJson);\r",
+									"    pm.environment.set('ACCESS_TOKEN', responseJson['access_token']);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/vacationType/{{ID_new_type_vacation}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"vacationType",
+								"{{ID_new_type_vacation}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Add new vacation type, Description.lenght = 1000",
 					"event": [
 						{
@@ -1393,7 +1849,7 @@
 									"\r",
 									" var jsonData = pm.response.json();\r",
 									"\r",
-									"pm.collectionVariables.set(\"vacation_type_id\", jsonData.id);\r",
+									"pm.collectionVariables.set(\"ID_new_type_vacation\", jsonData.id);\r",
 									"\r",
 									"pm.test(\"Test Description - length (1000)\", function () {\r",
 									"    pm.expect(jsonData.description.length).to.eql(1000);\r",
@@ -1441,6 +1897,140 @@
 							"mode": "raw",
 							"raw": "{\r\n  \"value\": \"{{$randomCatchPhrase}}\",\r\n  \"description\": \"{{randomString}}\"\r\n}"
 						},
+						"url": {
+							"raw": "{{base_url}}/vacationType",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"vacationType"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete vacation",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const postRequest = {\r",
+									"  url: 'http://keycloak-dev.lan/auth/realms/freeipa-realm/protocol/openid-connect/token',\r",
+									"  method: 'POST',\r",
+									"  timeout: 0,\r",
+									"  header: {\r",
+									"    \"Content-Type\": \"application/x-www-form-urlencoded\"\r",
+									"  },\r",
+									"  body: {\r",
+									"    mode: 'urlencoded',\r",
+									"    urlencoded: [\r",
+									"        {key: \"grant_type\", value: \"password\"},\r",
+									"        {key:\"username\", value: \"admin\"},\r",
+									"        {key:\"password\", value: \"admin\"},\r",
+									"        {key:\"client_id\", value: \"core\"},\r",
+									"        {key:\"client_secret\", value: \"d11e83a3-95cc-460c-9289-511d36d3e3fb\"}\r",
+									"    ]}\r",
+									"};\r",
+									"pm.sendRequest(postRequest, function (err, res) {\r",
+									"    var responseJson = res.json();\r",
+									"    console.log(responseJson);\r",
+									"    pm.environment.set('ACCESS_TOKEN', responseJson['access_token']);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/vacationType/{{ID_new_type_vacation}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"vacationType",
+								"{{ID_new_type_vacation}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Check vacation types count",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Test vacation types count\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.length).to.eql(6);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const postRequest = {\r",
+									"  url: 'http://keycloak-dev.lan/auth/realms/freeipa-realm/protocol/openid-connect/token',\r",
+									"  method: 'POST',\r",
+									"  timeout: 0,\r",
+									"  header: {\r",
+									"    \"Content-Type\": \"application/x-www-form-urlencoded\"\r",
+									"  },\r",
+									"  body: {\r",
+									"    mode: 'urlencoded',\r",
+									"    urlencoded: [\r",
+									"        {key: \"grant_type\", value: \"password\"},\r",
+									"        {key:\"username\", value: \"admin\"},\r",
+									"        {key:\"password\", value: \"admin\"},\r",
+									"        {key:\"client_id\", value: \"core\"},\r",
+									"        {key:\"client_secret\", value: \"d11e83a3-95cc-460c-9289-511d36d3e3fb\"}\r",
+									"    ]}\r",
+									"};\r",
+									"pm.sendRequest(postRequest, function (err, res) {\r",
+									"    var responseJson = res.json();\r",
+									"    console.log(responseJson);\r",
+									"    pm.environment.set('ACCESS_TOKEN', responseJson['access_token']);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
 						"url": {
 							"raw": "{{base_url}}/vacationType",
 							"host": [
@@ -1522,79 +2112,6 @@
 							"path": [
 								"vacationType",
 								"123456"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Delete vacation on ID - Не авторизован",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code is 401\", function () {\r",
-									"    pm.response.to.have.status(401);\r",
-									"});\r",
-									"\r",
-									"pm.test(\"Body matches string\", function () {\r",
-									"    pm.expect(pm.response.text()).to.include(\"Not authorized\");\r",
-									"});\r",
-									"\r",
-									"\r",
-									"\r",
-									"\r",
-									""
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									"const postRequest = {\r",
-									"  url: 'http://keycloak-dev.lan/auth/realms/freeipa-realm/protocol/openid-connect/token',\r",
-									"  method: 'POST',\r",
-									"  timeout: 0,\r",
-									"  header: {\r",
-									"    \"Content-Type\": \"application/x-www-form-urlencoded\"\r",
-									"  },\r",
-									"  body: {\r",
-									"    mode: 'urlencoded',\r",
-									"    urlencoded: [\r",
-									"        {key: \"grant_type\", value: \"password\"},\r",
-									"        {key:\"username\", value: \"admin\"},\r",
-									"        {key:\"password\", value: \"admin\"},\r",
-									"        {key:\"client_id\", value: \"core\"},\r",
-									"        {key:\"client_secret\", value: \"d11e83a3-95cc-460c-9289-511d36d3e3fb\"}\r",
-									"    ]}\r",
-									"};\r",
-									"pm.sendRequest(postRequest, function (err, res) {\r",
-									"    var responseJson = res.json();\r",
-									"    console.log(responseJson);\r",
-									"    pm.environment.set('ACCESS_TOKEN', responseJson['access_token']);\r",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "{{base_url}}/vacationType/{{ID_new_type_vacation}}",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"vacationType",
-								"{{ID_new_type_vacation}}"
 							]
 						}
 					},
@@ -1725,16 +2242,19 @@
 					"response": []
 				},
 				{
-					"name": "Delete vacation on ID",
+					"name": "Delete vacation on ID - Не авторизован",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"Status code is 204\", function () {\r",
-									"    pm.response.to.have.status(204);\r",
+									"pm.test(\"Status code is 401\", function () {\r",
+									"    pm.response.to.have.status(401);\r",
 									"});\r",
 									"\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"Not authorized\");\r",
+									"});\r",
 									"\r",
 									"\r",
 									"\r",
@@ -1759,8 +2279,8 @@
 									"    mode: 'urlencoded',\r",
 									"    urlencoded: [\r",
 									"        {key: \"grant_type\", value: \"password\"},\r",
-									"        {key:\"username\", value: \"konstantin.kostylev@irlix.ru\"},\r",
-									"        {key:\"password\", value: \"P@ssw0rd4323\"},\r",
+									"        {key:\"username\", value: \"admin\"},\r",
+									"        {key:\"password\", value: \"admin\"},\r",
 									"        {key:\"client_id\", value: \"core\"},\r",
 									"        {key:\"client_secret\", value: \"d11e83a3-95cc-460c-9289-511d36d3e3fb\"}\r",
 									"    ]}\r",
@@ -1768,7 +2288,7 @@
 									"pm.sendRequest(postRequest, function (err, res) {\r",
 									"    var responseJson = res.json();\r",
 									"    console.log(responseJson);\r",
-									"    pm.environment.set('ACCESS_TOKEN_USER', responseJson['access_token']);\r",
+									"    pm.environment.set('ACCESS_TOKEN', responseJson['access_token']);\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -1776,6 +2296,9 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "DELETE",
 						"header": [],
 						"url": {
@@ -1856,6 +2379,73 @@
 								}
 							]
 						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/vacationType/{{ID_new_type_vacation}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"vacationType",
+								"{{ID_new_type_vacation}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete vacation on ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const postRequest = {\r",
+									"  url: 'http://keycloak-dev.lan/auth/realms/freeipa-realm/protocol/openid-connect/token',\r",
+									"  method: 'POST',\r",
+									"  timeout: 0,\r",
+									"  header: {\r",
+									"    \"Content-Type\": \"application/x-www-form-urlencoded\"\r",
+									"  },\r",
+									"  body: {\r",
+									"    mode: 'urlencoded',\r",
+									"    urlencoded: [\r",
+									"        {key: \"grant_type\", value: \"password\"},\r",
+									"        {key:\"username\", value: \"konstantin.kostylev@irlix.ru\"},\r",
+									"        {key:\"password\", value: \"P@ssw0rd4323\"},\r",
+									"        {key:\"client_id\", value: \"core\"},\r",
+									"        {key:\"client_secret\", value: \"d11e83a3-95cc-460c-9289-511d36d3e3fb\"}\r",
+									"    ]}\r",
+									"};\r",
+									"pm.sendRequest(postRequest, function (err, res) {\r",
+									"    var responseJson = res.json();\r",
+									"    console.log(responseJson);\r",
+									"    pm.environment.set('ACCESS_TOKEN_USER', responseJson['access_token']);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
 						"method": "DELETE",
 						"header": [],
 						"url": {
@@ -2668,7 +3258,7 @@
 									"        return randomString;\r",
 									"    }\r",
 									"    \r",
-									"    STRING_LEN = 1000\r",
+									"    STRING_LEN = 1001\r",
 									"    pm.collectionVariables.set('randomString', randomString(STRING_LEN));"
 								],
 								"type": "text/javascript"
@@ -2693,7 +3283,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"value\": \"New value Test\",\r\n  \"description\": \"{{randomString}}f\"\r\n}"
+							"raw": "{\r\n  \"value\": \"New value Test desc 1001\",\r\n  \"description\": \"{{randomString}}\"\r\n}"
 						},
 						"url": {
 							"raw": "{{base_url}}/vacationType/{{ID_new_type_vacation}}",
@@ -3131,7 +3721,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"value\": \"TestType\",\r\n  \"description\": \"TestType Descriptions\"\r\n}"
+							"raw": "{\r\n  \"value\": \"TestType Value\",\r\n  \"description\": \"TestType Descriptions\"\r\n}"
 						},
 						"url": {
 							"raw": "{{base_url}}/vacationType",
@@ -3156,8 +3746,6 @@
 									"    pm.response.to.have.status(403);\r",
 									"});\r",
 									"\r",
-									"var jsonData = pm.response.json();\r",
-									"var id = pm.collectionVariables.get(\"ID_new_type_vacation\");\r",
 									"\r",
 									""
 								],
@@ -3604,7 +4192,7 @@
 									"\r",
 									"\r",
 									"pm.test(\"Expect full text Description (Error)\", function () {\r",
-									"    pm.expect(jsonData.value).to.eql(\"123456\");\r",
+									"    pm.expect(jsonData.value).to.eql(\"456\");\r",
 									"});\r",
 									"\r",
 									"\r",
@@ -4103,185 +4691,6 @@
 					"response": []
 				}
 			]
-		},
-		{
-			"name": "Delete vacation on ID Copy",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Status code is 204\", function () {\r",
-							"    pm.response.to.have.status(204);\r",
-							"});\r",
-							"\r",
-							"\r",
-							"\r",
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"url": {
-					"raw": "{{base_url}}/vacationType/89",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"vacationType",
-						"89"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get vacation types",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {\r",
-							"    pm.response.to.have.status(200);\r",
-							"});\r",
-							"\r",
-							"pm.test(\"Test vacation types count\", function () {\r",
-							"    var jsonData = pm.response.json();\r",
-							"    pm.expect(jsonData.length).to.eql(6);\r",
-							"});\r",
-							"\r",
-							"\r",
-							"\r",
-							""
-						],
-						"type": "text/javascript"
-					}
-				},
-				{
-					"listen": "prerequest",
-					"script": {
-						"exec": [
-							"const postRequest = {\r",
-							"  url: 'http://keycloak-dev.lan/auth/realms/freeipa-realm/protocol/openid-connect/token',\r",
-							"  method: 'POST',\r",
-							"  timeout: 0,\r",
-							"  header: {\r",
-							"    \"Content-Type\": \"application/x-www-form-urlencoded\"\r",
-							"  },\r",
-							"  body: {\r",
-							"    mode: 'urlencoded',\r",
-							"    urlencoded: [\r",
-							"        {key: \"grant_type\", value: \"password\"},\r",
-							"        {key:\"username\", value: \"admin\"},\r",
-							"        {key:\"password\", value: \"admin\"},\r",
-							"        {key:\"client_id\", value: \"core\"},\r",
-							"        {key:\"client_secret\", value: \"d11e83a3-95cc-460c-9289-511d36d3e3fb\"}\r",
-							"    ]}\r",
-							"};\r",
-							"pm.sendRequest(postRequest, function (err, res) {\r",
-							"    var responseJson = res.json();\r",
-							"    console.log(responseJson);\r",
-							"    pm.environment.set('ACCESS_TOKEN', responseJson['access_token']);\r",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{base_url}}/vacationType",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"vacationType"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Delete vacation on ID",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Status code is 204\", function () {\r",
-							"    pm.response.to.have.status(204);\r",
-							"});\r",
-							"\r",
-							"\r",
-							"\r",
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"url": {
-					"raw": "{{base_url}}/vacationType/{{ID_new_type_vacation}}",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"vacationType",
-						"{{ID_new_type_vacation}}"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Not authorizedrequest - Test",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Status code is 401\", function () {\r",
-							"    pm.response.to.have.status(401);\r",
-							"});\r",
-							"\r",
-							"\r",
-							"pm.test(\"Not authorized Test\", function () {\r",
-							"    pm.expect(pm.response.text()).to.include(\"Not authorized\");\r",
-							"});\r",
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"auth": {
-					"type": "noauth"
-				},
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{base_url}}/vacationType/5",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"vacationType",
-						"5"
-					]
-				}
-			},
-			"response": []
 		}
 	],
 	"auth": {
