@@ -21,8 +21,6 @@
 									"    pm.response.to.have.status(200);\r",
 									"});\r",
 									"\r",
-									"\r",
-									"\r",
 									"pm.test(\"Vacation type value Test\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
 									"    pm.expect(jsonData.value).to.eql(\"По уходу за ребенком\");\r",
@@ -100,11 +98,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/vacationType/5",
+							"raw": "http://vacation-dev.lan/api/vacationType/5",
+							"protocol": "http",
 							"host": [
-								"{{base_url}}"
+								"vacation-dev",
+								"lan"
 							],
 							"path": [
+								"api",
 								"vacationType",
 								"5"
 							]
@@ -172,11 +173,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/vacationType/146",
+							"raw": "http://vacation-dev.lan/api/vacationType/146",
+							"protocol": "http",
 							"host": [
-								"{{base_url}}"
+								"vacation-dev",
+								"lan"
 							],
 							"path": [
+								"api",
 								"vacationType",
 								"146"
 							]
@@ -214,11 +218,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/vacationType/5",
+							"raw": "http://vacation-dev.lan/api/vacationType/5",
+							"protocol": "http",
 							"host": [
-								"{{base_url}}"
+								"vacation-dev",
+								"lan"
 							],
 							"path": [
+								"api",
 								"vacationType",
 								"5"
 							]
@@ -285,11 +292,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/vacationType/126564613",
+							"raw": "http://vacation-dev.lan/api/vacationType/126564613",
+							"protocol": "http",
 							"host": [
-								"{{base_url}}"
+								"vacation-dev",
+								"lan"
 							],
 							"path": [
+								"api",
 								"vacationType",
 								"126564613"
 							]
@@ -418,11 +428,14 @@
 							"raw": "{\r\n  \"value\": \"TestType\",\r\n  \"description\": \"TestType Descriptions\"\r\n}"
 						},
 						"url": {
-							"raw": "{{base_url}}/vacationType",
+							"raw": "http://vacation-dev.lan/api/vacationType",
+							"protocol": "http",
 							"host": [
-								"{{base_url}}"
+								"vacation-dev",
+								"lan"
 							],
 							"path": [
+								"api",
 								"vacationType"
 							]
 						}
@@ -469,11 +482,14 @@
 							"raw": "{\r\n  \"value\": \"Основной оплачиваемый\",\r\n  \"description\": \"TestType Descriptions\"\r\n}"
 						},
 						"url": {
-							"raw": "{{base_url}}/vacationType",
+							"raw": "http://vacation-dev.lan/api/vacationType",
+							"protocol": "http",
 							"host": [
-								"{{base_url}}"
+								"vacation-dev",
+								"lan"
 							],
 							"path": [
+								"api",
 								"vacationType"
 							]
 						}
@@ -533,11 +549,14 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/vacationType/{{ID_new_type_vacation}}",
+							"raw": "http://vacation-dev.lan/api/vacationType/{{ID_new_type_vacation}}",
+							"protocol": "http",
 							"host": [
-								"{{base_url}}"
+								"vacation-dev",
+								"lan"
 							],
 							"path": [
+								"api",
 								"vacationType",
 								"{{ID_new_type_vacation}}"
 							]
@@ -590,11 +609,14 @@
 							"raw": "{\r\n  \"value\": \"TestType\",\r\n  \"description\": \"TestType Descriptions\"\r\n}"
 						},
 						"url": {
-							"raw": "{{base_url}}/vacationType",
+							"raw": "http://vacation-dev.lan/api/vacationType",
+							"protocol": "http",
 							"host": [
-								"{{base_url}}"
+								"vacation-dev",
+								"lan"
 							],
 							"path": [
+								"api",
 								"vacationType"
 							]
 						}
@@ -645,11 +667,14 @@
 							"raw": "{\r\n  \"value\": \"\",\r\n  \"description\": \"TestType Descriptions\"\r\n}"
 						},
 						"url": {
-							"raw": "{{base_url}}/vacationType",
+							"raw": "http://vacation-dev.lan/api/vacationType",
+							"protocol": "http",
 							"host": [
-								"{{base_url}}"
+								"vacation-dev",
+								"lan"
 							],
 							"path": [
+								"api",
 								"vacationType"
 							]
 						}
@@ -699,11 +724,14 @@
 							"raw": "{\r\n  \"value\": \"TEst\",\r\n  \"description\": \"\"\r\n}"
 						},
 						"url": {
-							"raw": "{{base_url}}/vacationType",
+							"raw": "http://vacation-dev.lan/api/vacationType",
+							"protocol": "http",
 							"host": [
-								"{{base_url}}"
+								"vacation-dev",
+								"lan"
 							],
 							"path": [
+								"api",
 								"vacationType"
 							]
 						}
@@ -744,7 +772,7 @@
 									"    }\r",
 									"    \r",
 									"    STRING_LEN = 255\r",
-									"    pm.variables.set('randomString', randomString(STRING_LEN));"
+									"    pm.variables.set('randomString255', randomString(STRING_LEN));"
 								],
 								"type": "text/javascript"
 							}
@@ -768,14 +796,17 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"value\": \"{{randomString}}s\",\r\n  \"description\": \"TestType Descriptions for test\"\r\n}"
+							"raw": "{\r\n  \"value\": \"{{randomString255}}s\",\r\n  \"description\": \"TestType Descriptions for test\"\r\n}"
 						},
 						"url": {
-							"raw": "{{base_url}}/vacationType",
+							"raw": "http://vacation-dev.lan/api/vacationType",
+							"protocol": "http",
 							"host": [
-								"{{base_url}}"
+								"vacation-dev",
+								"lan"
 							],
 							"path": [
+								"api",
 								"vacationType"
 							]
 						}
@@ -815,8 +846,8 @@
 									"        return randomString;\r",
 									"    }\r",
 									"    \r",
-									"    STRING_LEN = 1000\r",
-									"    pm.variables.set('randomString', randomString(STRING_LEN));"
+									"    STRING_LEN = 1001\r",
+									"    pm.variables.set('randomString1001', randomString(STRING_LEN));"
 								],
 								"type": "text/javascript"
 							}
@@ -840,14 +871,17 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"value\": \"TEst\",\r\n  \"description\": \"{{randomString}}s\"\r\n}"
+							"raw": "{\r\n  \"value\": \"TEst\",\r\n  \"description\": \"{{randomString1001}}\"\r\n}"
 						},
 						"url": {
-							"raw": "{{base_url}}/vacationType",
+							"raw": "http://vacation-dev.lan/api/vacationType",
+							"protocol": "http",
 							"host": [
-								"{{base_url}}"
+								"vacation-dev",
+								"lan"
 							],
 							"path": [
+								"api",
 								"vacationType"
 							]
 						}
@@ -899,11 +933,14 @@
 							"raw": "{\r\n  \"description\": \"TestType Descriptions\"\r\n}"
 						},
 						"url": {
-							"raw": "{{base_url}}/vacationType",
+							"raw": "http://vacation-dev.lan/api/vacationType",
+							"protocol": "http",
 							"host": [
-								"{{base_url}}"
+								"vacation-dev",
+								"lan"
 							],
 							"path": [
+								"api",
 								"vacationType"
 							]
 						}
@@ -952,11 +989,14 @@
 							"raw": "{\r\n  \"value\": \"TEst with out desc\"\r\n}"
 						},
 						"url": {
-							"raw": "{{base_url}}/vacationType",
+							"raw": "http://vacation-dev.lan/api/vacationType",
+							"protocol": "http",
 							"host": [
-								"{{base_url}}"
+								"vacation-dev",
+								"lan"
 							],
 							"path": [
+								"api",
 								"vacationType"
 							]
 						}
@@ -1041,11 +1081,14 @@
 							"raw": "{\r\n  \"value\": \"TestType_user\",\r\n  \"description\": \"TestType user Descriptions\"\r\n}"
 						},
 						"url": {
-							"raw": "{{base_url}}/vacationType",
+							"raw": "http://vacation-dev.lan/api/vacationType",
+							"protocol": "http",
 							"host": [
-								"{{base_url}}"
+								"vacation-dev",
+								"lan"
 							],
 							"path": [
+								"api",
 								"vacationType"
 							]
 						}
@@ -1096,11 +1139,14 @@
 							"raw": "{\r\n\r\n}"
 						},
 						"url": {
-							"raw": "{{base_url}}/vacationType",
+							"raw": "http://vacation-dev.lan/api/vacationType",
+							"protocol": "http",
 							"host": [
-								"{{base_url}}"
+								"vacation-dev",
+								"lan"
 							],
 							"path": [
+								"api",
 								"vacationType"
 							]
 						}
@@ -1149,11 +1195,14 @@
 							"raw": "{\r\n  \"value\": \"TestType vacation 3\",\r\n  \"description\": \"описание для Основной оплачиваемый\"\r\n}"
 						},
 						"url": {
-							"raw": "{{base_url}}/vacationType",
+							"raw": "http://vacation-dev.lan/api/vacationType",
+							"protocol": "http",
 							"host": [
-								"{{base_url}}"
+								"vacation-dev",
+								"lan"
 							],
 							"path": [
+								"api",
 								"vacationType"
 							]
 						}
@@ -1203,11 +1252,14 @@
 							"raw": "{\r\n  \"value\": 1237895,\r\n  \"description\": \"{{$randomCatchPhraseNoun}}\"\r\n}"
 						},
 						"url": {
-							"raw": "{{base_url}}/vacationType",
+							"raw": "http://vacation-dev.lan/api/vacationType",
+							"protocol": "http",
 							"host": [
-								"{{base_url}}"
+								"vacation-dev",
+								"lan"
 							],
 							"path": [
+								"api",
 								"vacationType"
 							]
 						}
@@ -1267,11 +1319,14 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/vacationType/{{ID_new_type_vacation}}",
+							"raw": "http://vacation-dev.lan/api/vacationType/{{ID_new_type_vacation}}",
+							"protocol": "http",
 							"host": [
-								"{{base_url}}"
+								"vacation-dev",
+								"lan"
 							],
 							"path": [
+								"api",
 								"vacationType",
 								"{{ID_new_type_vacation}}"
 							]
@@ -1322,11 +1377,14 @@
 							"raw": "{\r\n  \"value\": \"458997\",\r\n  \"description\": \"описание для Основной оплачиваемый отпуск 2023\"\r\n}"
 						},
 						"url": {
-							"raw": "{{base_url}}/vacationType",
+							"raw": "http://vacation-dev.lan/api/vacationType",
+							"protocol": "http",
 							"host": [
-								"{{base_url}}"
+								"vacation-dev",
+								"lan"
 							],
 							"path": [
+								"api",
 								"vacationType"
 							]
 						}
@@ -1386,11 +1444,14 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/vacationType/{{ID_new_type_vacation}}",
+							"raw": "http://vacation-dev.lan/api/vacationType/{{ID_new_type_vacation}}",
+							"protocol": "http",
 							"host": [
-								"{{base_url}}"
+								"vacation-dev",
+								"lan"
 							],
 							"path": [
+								"api",
 								"vacationType",
 								"{{ID_new_type_vacation}}"
 							]
@@ -1441,11 +1502,14 @@
 							"raw": "{\r\n  \"value\": \"Test vacation \",\r\n  \"description\": 123\r\n}"
 						},
 						"url": {
-							"raw": "{{base_url}}/vacationType",
+							"raw": "http://vacation-dev.lan/api/vacationType",
+							"protocol": "http",
 							"host": [
-								"{{base_url}}"
+								"vacation-dev",
+								"lan"
 							],
 							"path": [
+								"api",
 								"vacationType"
 							]
 						}
@@ -1505,11 +1569,14 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/vacationType/{{ID_new_type_vacation}}",
+							"raw": "http://vacation-dev.lan/api/vacationType/{{ID_new_type_vacation}}",
+							"protocol": "http",
 							"host": [
-								"{{base_url}}"
+								"vacation-dev",
+								"lan"
 							],
 							"path": [
+								"api",
 								"vacationType",
 								"{{ID_new_type_vacation}}"
 							]
@@ -1590,11 +1657,14 @@
 							"raw": "{\r\n  \"value\": \"Test vacation if Number\",\r\n  \"description\": \"12345\"\r\n}"
 						},
 						"url": {
-							"raw": "{{base_url}}/vacationType",
+							"raw": "http://vacation-dev.lan/api/vacationType",
+							"protocol": "http",
 							"host": [
-								"{{base_url}}"
+								"vacation-dev",
+								"lan"
 							],
 							"path": [
+								"api",
 								"vacationType"
 							]
 						}
@@ -1654,11 +1724,14 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/vacationType/{{ID_new_type_vacation}}",
+							"raw": "http://vacation-dev.lan/api/vacationType/{{ID_new_type_vacation}}",
+							"protocol": "http",
 							"host": [
-								"{{base_url}}"
+								"vacation-dev",
+								"lan"
 							],
 							"path": [
+								"api",
 								"vacationType",
 								"{{ID_new_type_vacation}}"
 							]
@@ -1729,7 +1802,7 @@
 									"    }\r",
 									"    \r",
 									"    STRING_LEN = 255\r",
-									"    pm.collectionVariables.set('randomString', randomString(STRING_LEN));\r",
+									"    pm.collectionVariables.set('randomString255', randomString(STRING_LEN));\r",
 									""
 								],
 								"type": "text/javascript"
@@ -1754,14 +1827,17 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"value\": \"{{randomString}}\",\r\n  \"description\": \"{{$randomCatchPhrase}}\"\r\n}"
+							"raw": "{\r\n  \"value\": \"{{randomString255}}\",\r\n  \"description\": \"{{$randomCatchPhrase}}\"\r\n}"
 						},
 						"url": {
-							"raw": "{{base_url}}/vacationType",
+							"raw": "http://vacation-dev.lan/api/vacationType",
+							"protocol": "http",
 							"host": [
-								"{{base_url}}"
+								"vacation-dev",
+								"lan"
 							],
 							"path": [
+								"api",
 								"vacationType"
 							]
 						}
@@ -1821,11 +1897,14 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/vacationType/{{ID_new_type_vacation}}",
+							"raw": "http://vacation-dev.lan/api/vacationType/{{ID_new_type_vacation}}",
+							"protocol": "http",
 							"host": [
-								"{{base_url}}"
+								"vacation-dev",
+								"lan"
 							],
 							"path": [
+								"api",
 								"vacationType",
 								"{{ID_new_type_vacation}}"
 							]
@@ -1898,11 +1977,14 @@
 							"raw": "{\r\n  \"value\": \"{{$randomCatchPhrase}}\",\r\n  \"description\": \"{{randomString}}\"\r\n}"
 						},
 						"url": {
-							"raw": "{{base_url}}/vacationType",
+							"raw": "http://vacation-dev.lan/api/vacationType",
+							"protocol": "http",
 							"host": [
-								"{{base_url}}"
+								"vacation-dev",
+								"lan"
 							],
 							"path": [
+								"api",
 								"vacationType"
 							]
 						}
@@ -1962,11 +2044,14 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/vacationType/{{ID_new_type_vacation}}",
+							"raw": "http://vacation-dev.lan/api/vacationType/{{ID_new_type_vacation}}",
+							"protocol": "http",
 							"host": [
-								"{{base_url}}"
+								"vacation-dev",
+								"lan"
 							],
 							"path": [
+								"api",
 								"vacationType",
 								"{{ID_new_type_vacation}}"
 							]
@@ -2032,11 +2117,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/vacationType",
+							"raw": "http://vacation-dev.lan/api/vacationType",
+							"protocol": "http",
 							"host": [
-								"{{base_url}}"
+								"vacation-dev",
+								"lan"
 							],
 							"path": [
+								"api",
 								"vacationType"
 							]
 						}
@@ -2105,11 +2193,14 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/vacationType/123456",
+							"raw": "http://vacation-dev.lan/api/vacationType/123456",
+							"protocol": "http",
 							"host": [
-								"{{base_url}}"
+								"vacation-dev",
+								"lan"
 							],
 							"path": [
+								"api",
 								"vacationType",
 								"123456"
 							]
@@ -2230,11 +2321,14 @@
 							"raw": "{\r\n  \"value\": \"TestType\",\r\n  \"description\": \"TestType Descriptions\"\r\n}"
 						},
 						"url": {
-							"raw": "{{base_url}}/vacationType",
+							"raw": "http://vacation-dev.lan/api/vacationType",
+							"protocol": "http",
 							"host": [
-								"{{base_url}}"
+								"vacation-dev",
+								"lan"
 							],
 							"path": [
+								"api",
 								"vacationType"
 							]
 						}
@@ -2302,11 +2396,14 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/vacationType/{{ID_new_type_vacation}}",
+							"raw": "http://vacation-dev.lan/api/vacationType/{{ID_new_type_vacation}}",
+							"protocol": "http",
 							"host": [
-								"{{base_url}}"
+								"vacation-dev",
+								"lan"
 							],
 							"path": [
+								"api",
 								"vacationType",
 								"{{ID_new_type_vacation}}"
 							]
@@ -2382,11 +2479,14 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/vacationType/{{ID_new_type_vacation}}",
+							"raw": "http://vacation-dev.lan/api/vacationType/{{ID_new_type_vacation}}",
+							"protocol": "http",
 							"host": [
-								"{{base_url}}"
+								"vacation-dev",
+								"lan"
 							],
 							"path": [
+								"api",
 								"vacationType",
 								"{{ID_new_type_vacation}}"
 							]
@@ -2449,11 +2549,14 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/vacationType/{{ID_new_type_vacation}}",
+							"raw": "http://vacation-dev.lan/api/vacationType/{{ID_new_type_vacation}}",
+							"protocol": "http",
 							"host": [
-								"{{base_url}}"
+								"vacation-dev",
+								"lan"
 							],
 							"path": [
+								"api",
 								"vacationType",
 								"{{ID_new_type_vacation}}"
 							]
@@ -2488,11 +2591,14 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/vacationType/{{ID_new_type_vacation}}",
+							"raw": "http://vacation-dev.lan/api/vacationType/{{ID_new_type_vacation}}",
+							"protocol": "http",
 							"host": [
-								"{{base_url}}"
+								"vacation-dev",
+								"lan"
 							],
 							"path": [
+								"api",
 								"vacationType",
 								"{{ID_new_type_vacation}}"
 							]
@@ -2506,7 +2612,7 @@
 			"name": "Получение списка типов отпусков",
 			"item": [
 				{
-					"name": "Get vacation types - Авторизован",
+					"name": "Get vacation types - Авторизован User",
 					"event": [
 						{
 							"listen": "test",
@@ -2573,11 +2679,86 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/vacationType",
+							"raw": "http://vacation-dev.lan/api/vacationType",
+							"protocol": "http",
 							"host": [
-								"{{base_url}}"
+								"vacation-dev",
+								"lan"
 							],
 							"path": [
+								"api",
+								"vacationType"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get vacation types - Авторизован Admin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Test vacation types count\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.length).to.eql(6);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const postRequest = {\r",
+									"  url: 'http://keycloak-dev.lan/auth/realms/freeipa-realm/protocol/openid-connect/token',\r",
+									"  method: 'POST',\r",
+									"  timeout: 0,\r",
+									"  header: {\r",
+									"    \"Content-Type\": \"application/x-www-form-urlencoded\"\r",
+									"  },\r",
+									"  body: {\r",
+									"    mode: 'urlencoded',\r",
+									"    urlencoded: [\r",
+									"        {key: \"grant_type\", value: \"password\"},\r",
+									"        {key:\"username\", value: \"admin\"},\r",
+									"        {key:\"password\", value: \"admin\"},\r",
+									"        {key:\"client_id\", value: \"core\"},\r",
+									"        {key:\"client_secret\", value: \"d11e83a3-95cc-460c-9289-511d36d3e3fb\"}\r",
+									"    ]}\r",
+									"};\r",
+									"pm.sendRequest(postRequest, function (err, res) {\r",
+									"    var responseJson = res.json();\r",
+									"    console.log(responseJson);\r",
+									"    pm.environment.set('ACCESS_TOKEN', responseJson['access_token']);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://vacation-dev.lan/api/vacationType",
+							"protocol": "http",
+							"host": [
+								"vacation-dev",
+								"lan"
+							],
+							"path": [
+								"api",
 								"vacationType"
 							]
 						}
@@ -2624,11 +2805,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/vacationType",
+							"raw": "http://vacation-dev.lan/api/vacationType",
+							"protocol": "http",
 							"host": [
-								"{{base_url}}"
+								"vacation-dev",
+								"lan"
 							],
 							"path": [
+								"api",
 								"vacationType"
 							]
 						}
@@ -2750,14 +2934,17 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"value\": \"TestType\",\r\n  \"description\": \"TestType Descriptions\"\r\n}"
+							"raw": "{\r\n  \"value\": \"TestType Value\",\r\n  \"description\": \"TestType Descriptions\"\r\n}"
 						},
 						"url": {
-							"raw": "{{base_url}}/vacationType",
+							"raw": "http://vacation-dev.lan/api/vacationType",
+							"protocol": "http",
 							"host": [
-								"{{base_url}}"
+								"vacation-dev",
+								"lan"
 							],
 							"path": [
+								"api",
 								"vacationType"
 							]
 						}
@@ -2841,11 +3028,14 @@
 							"raw": "{\r\n  \"value\": \"New value Test\",\r\n  \"description\": \"Description new Test\"\r\n}"
 						},
 						"url": {
-							"raw": "{{base_url}}/vacationType/{{ID_new_type_vacation}}",
+							"raw": "http://vacation-dev.lan/api/vacationType/{{ID_new_type_vacation}}",
+							"protocol": "http",
 							"host": [
-								"{{base_url}}"
+								"vacation-dev",
+								"lan"
 							],
 							"path": [
+								"api",
 								"vacationType",
 								"{{ID_new_type_vacation}}"
 							]
@@ -2929,11 +3119,14 @@
 							"raw": "{\r\n  \"description\": \"Description new Test1\"\r\n}"
 						},
 						"url": {
-							"raw": "{{base_url}}/vacationType/{{ID_new_type_vacation}}",
+							"raw": "http://vacation-dev.lan/api/vacationType/{{ID_new_type_vacation}}",
+							"protocol": "http",
 							"host": [
-								"{{base_url}}"
+								"vacation-dev",
+								"lan"
 							],
 							"path": [
+								"api",
 								"vacationType",
 								"{{ID_new_type_vacation}}"
 							]
@@ -3019,11 +3212,14 @@
 							"raw": "{\r\n  \"value\": \"New value if Description not exist\"\r\n\r\n}"
 						},
 						"url": {
-							"raw": "{{base_url}}/vacationType/{{ID_new_type_vacation}}",
+							"raw": "http://vacation-dev.lan/api/vacationType/{{ID_new_type_vacation}}",
+							"protocol": "http",
 							"host": [
-								"{{base_url}}"
+								"vacation-dev",
+								"lan"
 							],
 							"path": [
+								"api",
 								"vacationType",
 								"{{ID_new_type_vacation}}"
 							]
@@ -3107,11 +3303,14 @@
 							"raw": "{\r\n  \"value\": \"{{new_value}}\",\r\n  \"description\": \"Description new Test1\"\r\n}"
 						},
 						"url": {
-							"raw": "{{base_url}}/vacationType/{{ID_new_type_vacation}}",
+							"raw": "http://vacation-dev.lan/api/vacationType/{{ID_new_type_vacation}}",
+							"protocol": "http",
 							"host": [
-								"{{base_url}}"
+								"vacation-dev",
+								"lan"
 							],
 							"path": [
+								"api",
 								"vacationType",
 								"{{ID_new_type_vacation}}"
 							]
@@ -3138,6 +3337,9 @@
 									"    pm.expect(jsonData.description).to.eql(\"Ошибка добавления или обновления записи в бд\");\r",
 									"});\r",
 									"\r",
+									"pm.test(\"Response time is less than 500ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+									"});\r",
 									""
 								],
 								"type": "text/javascript"
@@ -3180,7 +3382,7 @@
 									"    }\r",
 									"    \r",
 									"    STRING_LEN = 255\r",
-									"    pm.variables.set('randomString', randomString(STRING_LEN));\r",
+									"    pm.variables.set('randomString255', randomString(STRING_LEN));\r",
 									""
 								],
 								"type": "text/javascript"
@@ -3205,14 +3407,17 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"value\": \"{{randomString}}a\",\r\n  \"description\": \"Description new Test1\"\r\n}"
+							"raw": "{\r\n  \"value\": \"{{randomString255}}a\",\r\n  \"description\": \"Description new Test1\"\r\n}"
 						},
 						"url": {
-							"raw": "{{base_url}}/vacationType/{{ID_new_type_vacation}}",
+							"raw": "http://vacation-dev.lan/api/vacationType/{{ID_new_type_vacation}}",
+							"protocol": "http",
 							"host": [
-								"{{base_url}}"
+								"vacation-dev",
+								"lan"
 							],
 							"path": [
+								"api",
 								"vacationType",
 								"{{ID_new_type_vacation}}"
 							]
@@ -3250,6 +3455,31 @@
 							"listen": "prerequest",
 							"script": {
 								"exec": [
+									"//------------ получение токена и запись в переменную\r",
+									"const postRequest = {\r",
+									"  url: 'http://keycloak-dev.lan/auth/realms/freeipa-realm/protocol/openid-connect/token',\r",
+									"  method: 'POST',\r",
+									"  timeout: 0,\r",
+									"  header: {\r",
+									"    \"Content-Type\": \"application/x-www-form-urlencoded\"\r",
+									"  },\r",
+									"  body: {\r",
+									"    mode: 'urlencoded',\r",
+									"    urlencoded: [\r",
+									"        {key: \"grant_type\", value: \"password\"},\r",
+									"        {key:\"username\", value: \"admin\"},\r",
+									"        {key:\"password\", value: \"admin\"},\r",
+									"        {key:\"client_id\", value: \"core\"},\r",
+									"        {key:\"client_secret\", value: \"d11e83a3-95cc-460c-9289-511d36d3e3fb\"}\r",
+									"    ]}\r",
+									"};\r",
+									"pm.sendRequest(postRequest, function (err, res) {\r",
+									"    var responseJson = res.json();\r",
+									"    console.log(responseJson);\r",
+									"    pm.environment.set('ACCESS_TOKEN', responseJson['access_token']);\r",
+									"});\r",
+									"\r",
+									"//----Генерация случайной строки на 1000 строк ------------\r",
 									"    function randomString(length=1) {\r",
 									"        let randomString = \"\";\r",
 									"        for (let i = 0; i < length; i++){\r",
@@ -3259,7 +3489,7 @@
 									"    }\r",
 									"    \r",
 									"    STRING_LEN = 1001\r",
-									"    pm.collectionVariables.set('randomString', randomString(STRING_LEN));"
+									"    pm.collectionVariables.set('randomString1001', randomString(STRING_LEN));"
 								],
 								"type": "text/javascript"
 							}
@@ -3283,14 +3513,17 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"value\": \"New value Test desc 1001\",\r\n  \"description\": \"{{randomString}}\"\r\n}"
+							"raw": "{\r\n  \"value\": \"New value Test desc 1001\",\r\n  \"description\": \"{{randomString1001}}\"\r\n}"
 						},
 						"url": {
-							"raw": "{{base_url}}/vacationType/{{ID_new_type_vacation}}",
+							"raw": "http://vacation-dev.lan/api/vacationType/{{ID_new_type_vacation}}",
+							"protocol": "http",
 							"host": [
-								"{{base_url}}"
+								"vacation-dev",
+								"lan"
 							],
 							"path": [
+								"api",
 								"vacationType",
 								"{{ID_new_type_vacation}}"
 							]
@@ -3354,11 +3587,14 @@
 							"raw": "{\r\n  \"value\": \"New value Test\",\r\n  \"description\": \"Description new Test\"\r\n}"
 						},
 						"url": {
-							"raw": "{{base_url}}/vacationType/{{ID_new_type_vacation}}",
+							"raw": "http://vacation-dev.lan/api/vacationType/{{ID_new_type_vacation}}",
+							"protocol": "http",
 							"host": [
-								"{{base_url}}"
+								"vacation-dev",
+								"lan"
 							],
 							"path": [
+								"api",
 								"vacationType",
 								"{{ID_new_type_vacation}}"
 							]
@@ -3442,11 +3678,14 @@
 							"raw": "{\r\n  \"value\": \"New value Test\",\r\n  \"description\": \"Description new Test\"\r\n}"
 						},
 						"url": {
-							"raw": "{{base_url}}/vacationType/789654",
+							"raw": "http://vacation-dev.lan/api/vacationType/789654",
+							"protocol": "http",
 							"host": [
-								"{{base_url}}"
+								"vacation-dev",
+								"lan"
 							],
 							"path": [
+								"api",
 								"vacationType",
 								"789654"
 							]
@@ -3507,11 +3746,14 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/vacationType/{{ID_new_type_vacation}}",
+							"raw": "http://vacation-dev.lan/api/vacationType/{{ID_new_type_vacation}}",
+							"protocol": "http",
 							"host": [
-								"{{base_url}}"
+								"vacation-dev",
+								"lan"
 							],
 							"path": [
+								"api",
 								"vacationType",
 								"{{ID_new_type_vacation}}"
 							]
@@ -3599,11 +3841,14 @@
 							"raw": "{\r\n  \"value\": \"New value if deleted Test\",\r\n  \"description\": \"Description new if deleted Test\"\r\n}"
 						},
 						"url": {
-							"raw": "{{base_url}}/vacationType/{{ID_new_type_vacation}}",
+							"raw": "http://vacation-dev.lan/api/vacationType/{{ID_new_type_vacation}}",
+							"protocol": "http",
 							"host": [
-								"{{base_url}}"
+								"vacation-dev",
+								"lan"
 							],
 							"path": [
+								"api",
 								"vacationType",
 								"{{ID_new_type_vacation}}"
 							]
@@ -3724,11 +3969,14 @@
 							"raw": "{\r\n  \"value\": \"TestType Value\",\r\n  \"description\": \"TestType Descriptions\"\r\n}"
 						},
 						"url": {
-							"raw": "{{base_url}}/vacationType",
+							"raw": "http://vacation-dev.lan/api/vacationType",
+							"protocol": "http",
 							"host": [
-								"{{base_url}}"
+								"vacation-dev",
+								"lan"
 							],
 							"path": [
+								"api",
 								"vacationType"
 							]
 						}
@@ -3814,11 +4062,14 @@
 							"raw": "{\r\n  \"value\": \"New value if deleted Test1\",\r\n  \"description\": \"Description new if deleted Test1\"\r\n}"
 						},
 						"url": {
-							"raw": "{{base_url}}/vacationType/{{ID_new_type_vacation}}",
+							"raw": "http://vacation-dev.lan/api/vacationType/{{ID_new_type_vacation}}",
+							"protocol": "http",
 							"host": [
-								"{{base_url}}"
+								"vacation-dev",
+								"lan"
 							],
 							"path": [
+								"api",
 								"vacationType",
 								"{{ID_new_type_vacation}}"
 							]
@@ -3901,11 +4152,119 @@
 							"raw": "{\r\n  \"value\": \"\",\r\n  \"description\": \"Description new if deleted Test\"\r\n}"
 						},
 						"url": {
-							"raw": "{{base_url}}/vacationType/{{ID_new_type_vacation}}",
+							"raw": "http://vacation-dev.lan/api/vacationType/{{ID_new_type_vacation}}",
+							"protocol": "http",
 							"host": [
-								"{{base_url}}"
+								"vacation-dev",
+								"lan"
 							],
 							"path": [
+								"api",
+								"vacationType",
+								"{{ID_new_type_vacation}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Change vacation - Value is null",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"var data = JSON.parse(responseBody);  \r",
+									"\r",
+									"pm.test(\"Expect full text Description (Error)\", function () {\r",
+									"    pm.expect(data[0].description).to.eql(\"Поле value: поле не должно быть null и не должно быть пустым\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 500ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const postRequest = {\r",
+									"  url: 'http://keycloak-dev.lan/auth/realms/freeipa-realm/protocol/openid-connect/token',\r",
+									"  method: 'POST',\r",
+									"  timeout: 0,\r",
+									"  header: {\r",
+									"    \"Content-Type\": \"application/x-www-form-urlencoded\"\r",
+									"  },\r",
+									"  body: {\r",
+									"    mode: 'urlencoded',\r",
+									"    urlencoded: [\r",
+									"        {key: \"grant_type\", value: \"password\"},\r",
+									"        {key:\"username\", value: \"admin\"},\r",
+									"        {key:\"password\", value: \"admin\"},\r",
+									"        {key:\"client_id\", value: \"core\"},\r",
+									"        {key:\"client_secret\", value: \"d11e83a3-95cc-460c-9289-511d36d3e3fb\"}\r",
+									"    ]}\r",
+									"};\r",
+									"pm.sendRequest(postRequest, function (err, res) {\r",
+									"    var responseJson = res.json();\r",
+									"    console.log(responseJson);\r",
+									"    pm.environment.set('ACCESS_TOKEN', responseJson['access_token']);\r",
+									"});\r",
+									"\r",
+									"//----------------------------------------------\r",
+									" function randomString(length=1) {\r",
+									"        let randomString = \"\";\r",
+									"        for (let i = 0; i < length; i++){\r",
+									"            randomString += pm.variables.replaceIn(\"{{$randomAlphaNumeric}}\");\r",
+									"        }\r",
+									"        return randomString;\r",
+									"    }\r",
+									"    \r",
+									"    STRING_LEN = 255\r",
+									"    pm.variables.set('randomString255', randomString(STRING_LEN));\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "accept",
+								"value": "*/*"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJES3c2ZUEyd0lqUEJnWUoxdW1PclZ6RWRRcjBKQzJ4YUVPbXpreC15STdNIn0.eyJleHAiOjE2ODE5NzI5NTAsImlhdCI6MTY4MTk3MTE1MCwianRpIjoiYjgwNGJhOGMtYTZkMy00YTJkLTk3MDYtNzhlMzFlMmYwZTg5IiwiaXNzIjoiaHR0cDovL2tleWNsb2FrLWRldi5sYW4vYXV0aC9yZWFsbXMvZnJlZWlwYS1yZWFsbSIsImF1ZCI6WyJpcmxpeC1zb2NpYWwiLCJhY2NvdW50Il0sInN1YiI6IjEyZWEzNjVkLTY2NGYtNGQ4NS1hYWYyLTE3ODgxOTY2ZWFkMSIsInR5cCI6IkJlYXJlciIsImF6cCI6ImNvcmUiLCJzZXNzaW9uX3N0YXRlIjoiMDU3ZjUxNWItOTFkMS00MWUwLWI2YzgtNTNiN2RjMzE5NTZjIiwiYWNyIjoiMSIsInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJvZmZsaW5lX2FjY2VzcyIsImRlZmF1bHQtcm9sZXMtZnJlZWlwYS1yZWFsbSIsInVtYV9hdXRob3JpemF0aW9uIiwiVVNFUiJdfSwicmVzb3VyY2VfYWNjZXNzIjp7ImNvcmUiOnsicm9sZXMiOlsiRU1QTE9ZRUUiXX0sImlybGl4LXNvY2lhbCI6eyJyb2xlcyI6WyJVU0VSIl19LCJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6IiIsInNpZCI6IjA1N2Y1MTViLTkxZDEtNDFlMC1iNmM4LTUzYjdkYzMxOTU2YyIsImxkYXBVc2VybmFtZSI6ImtvbnN0YW50aW4ua29zdHlsZXYifQ.E46i-xp_cNvTOnIZt2BrsinlpYPCXUHhg4C7a3rBjO1768fsxLvjFfzIXnGRt6IHIOA3jkbkKR3BfjiXlEa4VfGRcbYQb1xxc1Oyf-t0URRnzb6RLBBu47f1nE_wuJVtcq6JHR0hGVVv_w7mTM7gGFOGIpeIsOCIO6ovdbS1B4YkttG5TxxnxMGdrmPSHAM4FeHo-LeSKdT_pmmj5xwSbE9EaxbHvVii_Xc_1DNpSJ1Pa0Z-QrwTwZMdjc3rEoqAmvbbIx4fFbFlyRyb8W4T7Rv4HFxtwxH0Sb0ts8DlicoWA-6GUP-2A7b07xJnM9S1TR5TKtAjkIjWO-mMMfLeVw"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"value\": \" \",\r\n  \"description\": \"Description new Test1\"\r\n}"
+						},
+						"url": {
+							"raw": "http://vacation-dev.lan/api/vacationType/{{ID_new_type_vacation}}",
+							"protocol": "http",
+							"host": [
+								"vacation-dev",
+								"lan"
+							],
+							"path": [
+								"api",
 								"vacationType",
 								"{{ID_new_type_vacation}}"
 							]
@@ -3988,11 +4347,14 @@
 							"raw": "{\r\n  \"value\": \"Value - new value\",\r\n  \"description\": \"\"\r\n}"
 						},
 						"url": {
-							"raw": "{{base_url}}/vacationType/{{ID_new_type_vacation}}",
+							"raw": "http://vacation-dev.lan/api/vacationType/{{ID_new_type_vacation}}",
+							"protocol": "http",
 							"host": [
-								"{{base_url}}"
+								"vacation-dev",
+								"lan"
 							],
 							"path": [
+								"api",
 								"vacationType",
 								"{{ID_new_type_vacation}}"
 							]
@@ -4074,11 +4436,14 @@
 							"raw": "{\r\n\r\n}"
 						},
 						"url": {
-							"raw": "{{base_url}}/vacationType/{{ID_new_type_vacation}}",
+							"raw": "http://vacation-dev.lan/api/vacationType/{{ID_new_type_vacation}}",
+							"protocol": "http",
 							"host": [
-								"{{base_url}}"
+								"vacation-dev",
+								"lan"
 							],
 							"path": [
+								"api",
 								"vacationType",
 								"{{ID_new_type_vacation}}"
 							]
@@ -4164,11 +4529,14 @@
 							"raw": "{\r\n  \"value\": \"New Unique Value\",\r\n  \"description\": \"TestType Descriptions\"\r\n}"
 						},
 						"url": {
-							"raw": "{{base_url}}/vacationType/{{ID_new_type_vacation}}",
+							"raw": "http://vacation-dev.lan/api/vacationType/{{ID_new_type_vacation}}",
+							"protocol": "http",
 							"host": [
-								"{{base_url}}"
+								"vacation-dev",
+								"lan"
 							],
 							"path": [
+								"api",
 								"vacationType",
 								"{{ID_new_type_vacation}}"
 							]
@@ -4253,11 +4621,14 @@
 							"raw": "{\r\n  \"value\": 456,\r\n  \"description\": \"Description new if deleted Test\"\r\n}"
 						},
 						"url": {
-							"raw": "{{base_url}}/vacationType/{{ID_new_type_vacation}}",
+							"raw": "http://vacation-dev.lan/api/vacationType/{{ID_new_type_vacation}}",
+							"protocol": "http",
 							"host": [
-								"{{base_url}}"
+								"vacation-dev",
+								"lan"
 							],
 							"path": [
+								"api",
 								"vacationType",
 								"{{ID_new_type_vacation}}"
 							]
@@ -4342,11 +4713,14 @@
 							"raw": "{\r\n  \"value\": \"Value - new value\",\r\n  \"description\": 123456\r\n}"
 						},
 						"url": {
-							"raw": "{{base_url}}/vacationType/{{ID_new_type_vacation}}",
+							"raw": "http://vacation-dev.lan/api/vacationType/{{ID_new_type_vacation}}",
+							"protocol": "http",
 							"host": [
-								"{{base_url}}"
+								"vacation-dev",
+								"lan"
 							],
 							"path": [
+								"api",
 								"vacationType",
 								"{{ID_new_type_vacation}}"
 							]
@@ -4367,7 +4741,7 @@
 									"\r",
 									"\r",
 									"var data = JSON.parse(responseBody);  \r",
-									"var value = pm.variables.get(\"randomString\");\r",
+									"var value = pm.variables.get(\"randomString255\");\r",
 									"\r",
 									"pm.test(\"Test Value  if Value = 255\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
@@ -4440,14 +4814,17 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"value\": \"{{randomString}}\",\r\n  \"description\": \"Description new Test\"\r\n}"
+							"raw": "{\r\n  \"value\": \"{{randomString255}}\",\r\n  \"description\": \"Description new Test\"\r\n}"
 						},
 						"url": {
-							"raw": "{{base_url}}/vacationType/{{ID_new_type_vacation}}",
+							"raw": "http://vacation-dev.lan/api/vacationType/{{ID_new_type_vacation}}",
+							"protocol": "http",
 							"host": [
-								"{{base_url}}"
+								"vacation-dev",
+								"lan"
 							],
 							"path": [
+								"api",
 								"vacationType",
 								"{{ID_new_type_vacation}}"
 							]
@@ -4544,11 +4921,14 @@
 							"raw": "{\r\n  \"value\": \"This Value\",\r\n  \"description\": \"{{randomString}}\"\r\n}"
 						},
 						"url": {
-							"raw": "{{base_url}}/vacationType/{{ID_new_type_vacation}}",
+							"raw": "http://vacation-dev.lan/api/vacationType/{{ID_new_type_vacation}}",
+							"protocol": "http",
 							"host": [
-								"{{base_url}}"
+								"vacation-dev",
+								"lan"
 							],
 							"path": [
+								"api",
 								"vacationType",
 								"{{ID_new_type_vacation}}"
 							]
@@ -4609,11 +4989,14 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/vacationType/{{ID_new_type_vacation}}",
+							"raw": "http://vacation-dev.lan/api/vacationType/{{ID_new_type_vacation}}",
+							"protocol": "http",
 							"host": [
-								"{{base_url}}"
+								"vacation-dev",
+								"lan"
 							],
 							"path": [
+								"api",
 								"vacationType",
 								"{{ID_new_type_vacation}}"
 							]
@@ -4679,11 +5062,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/vacationType",
+							"raw": "http://vacation-dev.lan/api/vacationType",
+							"protocol": "http",
 							"host": [
-								"{{base_url}}"
+								"vacation-dev",
+								"lan"
 							],
 							"path": [
+								"api",
 								"vacationType"
 							]
 						}
@@ -4742,6 +5128,19 @@
 		},
 		{
 			"key": "ACCESS_TOKEN_USER",
+			"value": ""
+		},
+		{
+			"key": "base_url",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "randomString255",
+			"value": ""
+		},
+		{
+			"key": "randomString1001",
 			"value": ""
 		}
 	]
